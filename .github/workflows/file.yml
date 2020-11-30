@@ -33,12 +33,12 @@ jobs:
       - name: Build and Push
         uses: zemuldo/docker-build-push@master
         env:
-          DOCKER_USERNAME: "{{ env.DOCKER_USER }}"
+          DOCKER_USERNAME: "${{ env.DOCKER_USER }}"
           DOCKER_PASSWORD: "${{ secrets.DOCKER_PASS }}"
           REGISTRY_URL: "docker.io"
         with:
           image_name: "${{ env.DOCKER_REPO }}"
-          image_tag: "${GITHUB_REF##*/}-latest"
+          image_tag: "lala-${GITHUB_REF##*/}-latest"
 
 
 
