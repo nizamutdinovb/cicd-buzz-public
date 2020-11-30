@@ -27,7 +27,6 @@ jobs:
     env:
       DOCKER_USER: "nizamutdinovb"
       DOCKER_REPO: "nizamutdinovb/github-actions"
-      DOCKER_TAG: "${GITHUB_REF##*/}"
     steps:
       - name: Docker login
         uses: docker/login-action@v1
@@ -41,7 +40,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: "${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}-latest"
+          tags: "${{ env.DOCKER_REPO }}:${GITHUB_REF##*/}-latest"
 
 
 
