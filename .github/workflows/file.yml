@@ -17,6 +17,7 @@ jobs:
   docker_build:
     needs:
       - run_tests
+    runs-on: ubuntu-latest
     env:
       DOCKER_USER: "nizamutdinovb"
       DOCKER_REPO: "nizamutdinovb/github-actions"
