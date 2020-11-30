@@ -38,7 +38,7 @@ jobs:
           REGISTRY_URL: "docker.io"
         with:
           image_name: "${{ env.DOCKER_REPO }}"
-          image_tag: "lala-${GITHUB_REF##*/}-latest"
+          image_tag: "${GITHUB_REF##*/}-latest"
 
 
 
