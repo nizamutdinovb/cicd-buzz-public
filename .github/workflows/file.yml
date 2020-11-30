@@ -1,40 +1,40 @@
 name: Push-to-DockerHub
 
-  on:
-    push:
-      branches:
-        - master
-        - development
+on:
+  push:
+    branches:
+      - master
+      - development
 
-  jobs:
-    run_tests:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Git clone my repo
-          uses: actions/checkout@v1
-        - name: Run tests
-          run : python -m pytest -v
-    docker_build:
-      needs:
-        - run_tests
-      env:
-        DOCKER_USER: "nizamutdinovb"
-        DOCKER_REPO: "nizamutdinovb/github-actions"
-        DOCKER_TAG: "${GITHUB_REF##*/}"
-      steps:
-        - name: Docker login
-          uses: docker/login-action@v1
-          with:
-            username: ${{ env.DOCKER_USER }}
-            password: ${{ secrets.DOCKER_PASS}}
-        - name: Build and push
-          id: docker_build
-          uses: docker/build-push-action@v2
-          with:
-            context: .
-            file: ./Dockerfile
-            push: true
-            tags: "${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}-latest"
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone my repo
+        uses: actions/checkout@v1
+      - name: Run tests
+        run : python -m pytest -v
+  docker_build:
+    needs:
+      - run_tests
+    env:
+      DOCKER_USER: "nizamutdinovb"
+      DOCKER_REPO: "nizamutdinovb/github-actions"
+      DOCKER_TAG: "${GITHUB_REF##*/}"
+    steps:
+      - name: Docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS}}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: "${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}-latest"
 
 
 
