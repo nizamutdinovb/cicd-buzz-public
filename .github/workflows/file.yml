@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - development
+      - develop
 
 jobs:
   run_tests:
@@ -26,8 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_USER: "nizamutdinovb"
-      DOCKER_REPO: "nizamutdinovb/github-actions"
+      DOCKER_REPO: "github-actions"
     steps:
+      - name: Git clone my repo
+        uses: actions/checkout@v1
       - name: Build and Push
         uses: zemuldo/docker-build-push@master
         env:
