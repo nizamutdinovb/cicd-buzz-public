@@ -10,6 +10,8 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     steps:
+      - name: echo Branch name
+        run: echo "${GITHUB_REF##*/}"
       - name: Git clone my repo
         uses: actions/checkout@v1
       - name: Install dependencies
