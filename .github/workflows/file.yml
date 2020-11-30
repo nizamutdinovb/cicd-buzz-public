@@ -28,19 +28,15 @@ jobs:
       DOCKER_USER: "nizamutdinovb"
       DOCKER_REPO: "nizamutdinovb/github-actions"
     steps:
-      - name: Docker login
-        uses: docker/login-action@v1
+      - name: Build and Push
+        uses: zemuldo/docker-build-push@master
+        env:
+          DOCKER_USERNAME: "{{ env.DOCKER_USER }}"
+          DOCKER_PASSWORD: "${{ secrets.DOCKER_PASS }}"
+          REGISTRY_URL: "docker.io"
         with:
-          username: ${{ env.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS}}
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: "${{ env.DOCKER_REPO }}:master-latest"
+          image_name: "${{ env.DOCKER_REPO }}"
+          image_tag: "${GITHUB_REF##*/}-latest"
 
 
 
