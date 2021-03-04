@@ -10,35 +10,45 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     steps:
-      - name: echo Branch name
-        run: echo "${GITHUB_REF##*/}"
-      - name: Git clone my repo
-        uses: actions/checkout@v1
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run tests
-        run : python -m pytest -v
-  docker_build:
-    needs:
-      - run_tests
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_USER: "nizamutdinovb"
-      DOCKER_REPO: "github-actions"
-    steps:
-      - name: Git clone my repo
-        uses: actions/checkout@v1
-      - name: Build and Push
-        uses: zemuldo/docker-build-push@master
-        env:
-          DOCKER_USERNAME: "${{ env.DOCKER_USER }}"
-          DOCKER_PASSWORD: "${{ secrets.DOCKER_PASS }}"
-          REGISTRY_URL: "docker.io"
-        with:
-          image_name: "${{ env.DOCKER_REPO }}"
-          image_tag: "${GITHUB_REF##*/}-latest"
+    - name: Set env to staging
+      if: endsWith(github.ref, '/develop')
+      run: |
+        echo "APP_BASE_URL=https://api.fetolife.com" >> $APP_BASE_URL
+    - name: echo
+      env:
+          APP_BASE_URL            : ${{ env.APP_BASE_URL }}
+      run: |
+        echo "${{ env.APP_BASE_URL }}"
+        echo $APP_BASE_URL
+#       - name: echo Branch name
+#         run: echo "${GITHUB_REF##*/}"
+#       - name: Git clone my repo
+#         uses: actions/checkout@v1
+#       - name: Install dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
+#       - name: Run tests
+#         run : python -m pytest -v
+#   docker_build:
+#     needs:
+#       - run_tests
+#     runs-on: ubuntu-latest
+#     env:
+#       DOCKER_USER: "nizamutdinovb"
+#       DOCKER_REPO: "github-actions"
+#     steps:
+#       - name: Git clone my repo
+#         uses: actions/checkout@v1
+#       - name: Build and Push
+#         uses: zemuldo/docker-build-push@master
+#         env:
+#           DOCKER_USERNAME: "${{ env.DOCKER_USER }}"
+#           DOCKER_PASSWORD: "${{ secrets.DOCKER_PASS }}"
+#           REGISTRY_URL: "docker.io"
+#         with:
+#           image_name: "${{ env.DOCKER_REPO }}"
+#           image_tag: "${GITHUB_REF##*/}-latest"
 
 
 
