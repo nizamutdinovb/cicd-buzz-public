@@ -1,5 +1,8 @@
 name: Push-to-DockerHub
 
+env:
+  URL_dev : "http:/dev.com"
+
 on:
   push:
     branches:
@@ -13,7 +16,7 @@ jobs:
     - name: Set env to staging
       if: endsWith(github.ref, '/develop')
       run: |
-        echo "APP_BASE_URL=https://api.fetolife.com" >> $GITHUB_ENV
+        echo "APP_BASE_URL=${{ env.URL_dev }}" >> $GITHUB_ENV
     - name: echo
       env:
           APP_BASE_URL            : ${{ env.APP_BASE_URL }}
