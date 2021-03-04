@@ -13,7 +13,7 @@ jobs:
     - name: Set env to staging
       if: endsWith(github.ref, '/develop')
       run: |
-        echo "APP_BASE_URL=https://api.fetolife.com" >> $APP_BASE_URL
+        export APP_BASE_URL=https://api.fetolife.com
     - name: echo
       env:
           APP_BASE_URL            : ${{ env.APP_BASE_URL }}
